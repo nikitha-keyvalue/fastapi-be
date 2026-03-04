@@ -1,11 +1,16 @@
 services:
-  api:
-    build: .
-    container_name: fastapi-be
+  postgres:
+    image: postgres:15
+    container_name: oms_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: oms_user
+      POSTGRES_PASSWORD: oms_password
+      POSTGRES_DB: oms_db
     ports:
-      - "8000:8000"
-    env_file:
-      - .env
+      - "5432:5432"
     volumes:
-      - ./:/app
-    restart: unless-stopped
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
